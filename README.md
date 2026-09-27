@@ -1,32 +1,45 @@
-===================================================================
-                     FOLDER SYNCHRONIZER
--------------------------------------------------------------------
-   Periodically synchronizes a source folder with a replica folder
-===================================================================
+# FOLDER SYNCHRONIZER
 
-HOW IT WORKS
--------------------------------------------------------------------
-  1. Enter the source folder path
-  2. Enter the replica folder path
-  3. Enter the synchronization period in minutes
-  4. Enter the log folder path
+## DESCRIPTION
 
-  The replica folder will be periodically updated to match
-  the content of the source folder
+  Periodically synchronizes a source folder with a replica folder. The synchronization creates a fresh copy of the source folder in every sync operation, guaranteeing that the content of the replica folder is recoverable.       Logs of the synchronization are written with a timestamp to the console and to a log folder. 
 
-NOTE
--------------------------------------------------------------------
-  * Make sure all files in the replica folder are closed
-    before starting the synchronization
+## INSTALLATION AND USAGE
 
-  * Files in the source folder can remain open
+Make sure to install .NET 10.0 or higher version. Clone this repository and run the console application. No other package or dependency setup is needed.
 
-  * Logs are written to a text file created in the specified
-    log folder and are also displayed in the console
+## LIMITS OF USE
 
-  * If a synchronization fails, the files in the source folder
-    remain safe in their original location. Replica folder
-    content may be left intact or found in a backup folder
-    in the parent folder of the replica folder
+Make sure no files in the replica folder and subfolders are open and no subfolders of the replica folder are open before starting the synchronization. Files in the source folder and its subfolders, and subfolders of the source folder can remain open.
+When entering input data, the usual navigation between previous input values with the Up and Down arrows doesn't work. See more about this in the Technical notes section.
 
--------------------------------------------------------------------
+## CONTRIBUTING
+
+Logger.cs uses `StreamWriter` instead of `File.WriteAllLinesAsync()`. The reason behind this is some transient error with the latter method which I was not able to eliminate, so instead I chose a different, stable solution.
+
+User input is taken with a custom input reader class. It was necessary to use a reader based on Console.ReadKey() rather than Console.Readline(), in order to be able to accept text input (i.e. multiple key entered) and in the same time be able to stop the running with the press of the Esc key without having to press Enter after it.
+
+The solution was implemented as described in this [StackOverflow post](https://stackoverflow.com/a/66495807) with one change. In its current way, the code from the answer was found to work only with a low number of lines showing in the console, but not with the current application header. The error was about the console buffer height not being sufficient, and modifying the CancelableReadLine method to `var top = startPosition.top + endPosition.top;` instead of `var top = startPosition.top + endPosition.top + 1;` solved the issue. It required having to add some extra `\n` characters in the string constants, but the reader works properly.
+
+Periodic run is implemented with a `PeriodocTimer`, and the actual synchronization happens in an async method. So that in case the synchronization lasts longer than the sync period specified by the user, a new syncing won't be started before the current one is done.
+
+The synchronization itself follows these steps:
+
+Read the content of the <source> folder and subfolders and store them in data model objects
+Repeat the same for the <replica> folder
+Create a temporary folder
+Find the subfolders which only exist in the <replica> folder and not in the <source> folder and log deleting them
+Find the files which only exist in the <replica> folder and not in the <source> folder and log deleting them
+Iterate through the subfolders in the <source> folder. If they are not in the <replica> folder, copy them to tmp and log copying them
+Iterate through the files in the <source> folder and its subfolders. If the files are not in the <replica> folder, copy them to tmp and log copying them. If they are there, but with a different size or last modified date, copy them from the <source> folder and log updating them to the source version
+Rename <replica> to <replica>Backup
+Rename the temporary folder to <replica>
+Read the content of the new <replica> folder and subfolders and store them in data model objects
+Update the last modified data of the subfolders in the new <replica> to match the last modified data of the subfolders in the <source> folder
+Verify that the content of the new <replica> matches the content of <source>
+Delete <replica>Backup
+
+Exceptions were added to the data manipulation, so that different types of failures and handled gracefully, logged, and prevent the application from crashing.
+
+
+I would be more than glad to discuss my implementation with a tech team of Veeam in a next round of interview.

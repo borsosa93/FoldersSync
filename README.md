@@ -25,19 +25,19 @@ Periodic run is implemented with a `PeriodocTimer`, and the actual synchronizati
 
 The synchronization itself follows these steps:
 
-Read the content of the <source> folder and subfolders and store them in data model objects
-Repeat the same for the <replica> folder
-Create a temporary folder
-Find the subfolders which only exist in the <replica> folder and not in the <source> folder and log deleting them
-Find the files which only exist in the <replica> folder and not in the <source> folder and log deleting them
-Iterate through the subfolders in the <source> folder. If they are not in the <replica> folder, copy them to tmp and log copying them
-Iterate through the files in the <source> folder and its subfolders. If the files are not in the <replica> folder, copy them to tmp and log copying them. If they are there, but with a different size or last modified date, copy them from the <source> folder and log updating them to the source version
-Rename <replica> to <replica>Backup
-Rename the temporary folder to <replica>
-Read the content of the new <replica> folder and subfolders and store them in data model objects
-Update the last modified data of the subfolders in the new <replica> to match the last modified data of the subfolders in the <source> folder
-Verify that the content of the new <replica> matches the content of <source>
-Delete <replica>Backup
+* Read the content of the <source> folder and subfolders and store them in data model objects
+* Repeat the same for the <replica> folder
+* Create a temporary folder
+* Find the subfolders which only exist in the <replica> folder and not in the <source> folder and log deleting them
+* Find the files which only exist in the <replica> folder and not in the <source> folder and log deleting them
+* Iterate through the subfolders in the <source> folder. If they are not in the <replica> folder, copy them to tmp and log copying them
+* Iterate through the files in the <source> folder and its subfolders. If the files are not in the <replica> folder, copy them to tmp and log copying them. If they are there, but with a different size or last modified date,     copy them from the <source> folder and log updating them to the source version
+* Rename <replica> to <replica>Backup
+* Rename the temporary folder to <replica>
+* Read the content of the new <replica> folder and subfolders and store them in data model objects
+* Update the last modified data of the subfolders in the new <replica> to match the last modified data of the subfolders in the <source> folder
+* Verify that the content of the new <replica> matches the content of <source>
+* Delete <replica>Backup
 
 Exceptions were added to the data manipulation, so that different types of failures and handled gracefully, logged, and prevent the application from crashing.
 

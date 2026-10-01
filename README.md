@@ -11,7 +11,7 @@ Make sure to install .NET 10.0 or higher version. Clone this repository and run 
 ## LIMITS OF USE
 
 Make sure no files in the replica folder and subfolders are open and no subfolders of the replica folder are open before starting the synchronization. Files in the source folder and its subfolders, and subfolders of the source folder can remain open.
-When entering input data, the usual navigation between previous input values with the Up and Down arrows doesn't work. See more about this in the Technical notes section.
+Replica folder can't be in the source folder or in its subfolders. Log folder can't be in either the source folder, the replica folder, or in any subfolder of either.
 
 ## CONTRIBUTING
 

@@ -1,15 +1,29 @@
-﻿using FoldersSync;
+﻿using CommandLine;
+using FoldersSync;
 using FoldersSync.Models;
+
+OptionsModel argsOptions = new OptionsModel();
+
+await Parser.Default.ParseArguments<Options>(args).WithParsedAsync(async options =>
+{
+    if (ArgumentValidator.ValidateSrcFolderArg(options.SourcePath))
+    { argsOptions.SourceFolderPath = options.SourcePath; }
+    if (ArgumentValidator.ValidateRpcFolderArg(options.SourcePath, options.ReplicaPath))
+    { argsOptions.ReplicaFolderPath = options.ReplicaPath; }
+    if (ArgumentValidator.ValidateTimeArg(options.SyncTimePeriodMin))
+    { argsOptions.SyncIntervalMinute = options.SyncTimePeriodMin; }
+    if (ArgumentValidator.ValidateLogFolderArg(options.SourcePath, options.ReplicaPath,options.LogPath))
+    { argsOptions.LogFileFolderPath = options.LogPath; }
+}
+);
 
 Console.WriteLine(Constants.Header);
 
-//get user input
-UserInputModel userInput= InputDataReader.ReadInputParams();
-double syncIntervalMinute=userInput.SyncIntervalMinute;
+double syncIntervalMinute=argsOptions.SyncIntervalMinute;
 
 //create log file 
-string logFileGuid = await LogFileManager.CreateLogFile(userInput);
-string logFilePathName = LogFileManager.GetLogFileName(userInput.LogFileFolderPath, logFileGuid);
+string logFileGuid = await LogFileManager.CreateLogFile(argsOptions);
+string logFilePathName = LogFileManager.GetLogFileName(argsOptions.LogFileFolderPath, logFileGuid);
 
 //create stop key
 using var cts = new CancellationTokenSource();
@@ -31,12 +45,13 @@ catch (OperationCanceledException)
 //run periodically until stop is pressed
 async Task RunTimerAsync(CancellationToken token)
 {
+    await PeriodicSynchronizer.RunSync(argsOptions, logFileGuid);
     using var timer = new PeriodicTimer(TimeSpan.FromMinutes(syncIntervalMinute));
     try
     {
         while (await timer.WaitForNextTickAsync(token))
         {
-            await PeriodicSynchronizer.RunSync(userInput, logFileGuid);
+            await PeriodicSynchronizer.RunSync(argsOptions, logFileGuid);
         }
     }
     catch (OperationCanceledException)

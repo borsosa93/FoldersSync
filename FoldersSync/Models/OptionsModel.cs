@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FoldersSync.Models
 {
-    public class UserInputModel
+    public class OptionsModel
     {
         public string SourceFolderPath { get; set; }
         public string ReplicaFolderPath { get; set; }

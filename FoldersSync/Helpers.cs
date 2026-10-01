@@ -20,10 +20,10 @@ namespace FoldersSync
 
         public static List<SubfolderDataModel> GetSubfoldersData(List<string> subfolders, string rootFolder)
         {
-            List<SubfolderDataModel> subfoldersData= new List<SubfolderDataModel>();
-            foreach (var subfolder in subfolders) 
+            List<SubfolderDataModel> subfoldersData = new List<SubfolderDataModel>();
+            foreach (var subfolder in subfolders)
             {
-                SubfolderDataModel subfolderModel= new SubfolderDataModel(subfolder, rootFolder);
+                SubfolderDataModel subfolderModel = new SubfolderDataModel(subfolder, rootFolder);
                 subfoldersData.Add(subfolderModel);
             }
             return subfoldersData;
@@ -31,9 +31,9 @@ namespace FoldersSync
 
         public static string GetOpenedFile(List<string> files)
         {
-            foreach (var file in files) 
+            foreach (var file in files)
             {
-                FileInfo fi= new FileInfo(file);
+                FileInfo fi = new FileInfo(file);
                 try
                 {
                     using (FileStream stream = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))

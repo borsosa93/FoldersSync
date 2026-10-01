@@ -7,7 +7,7 @@ namespace FoldersSync
 {
     public class PeriodicSynchronizer
     {
-        public static async Task RunSync(UserInputModel userInput, string logFileGuid)
+        public static async Task RunSync(OptionsModel userInput, string logFileGuid)
         {
             string sourceFolderPath = userInput.SourceFolderPath;
             string replicaFolderPath = userInput.ReplicaFolderPath;
@@ -114,7 +114,8 @@ namespace FoldersSync
                 Directory.Delete(replicaBackupFolderPath, true);
                 Logger.WriteLogToConsoleLogfile(logFilePathName, Constants.SyncFinishedSuccess);
                 Console.WriteLine(Constants.LogFileIsAt+logFilePathName);
-                Console.WriteLine(Constants.SyncStartsIn + syncIntervalMinute + " min");
+                Console.WriteLine(Constants.WaitingPressEsc);
+
             }
             catch (Exception e)
             {

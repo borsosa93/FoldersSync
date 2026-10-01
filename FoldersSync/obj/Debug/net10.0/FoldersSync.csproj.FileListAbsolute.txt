@@ -42,4 +42,7 @@ C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersS
 C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\FoldersSync.pdb
 C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\FoldersSync.genruntimeconfig.cache
 C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\ref\FoldersSync.dll
+C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\FoldersSync.sourcelink.json
+C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\bin\Debug\net10.0\CommandLine.dll
+C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\FoldersSync.csproj.AssemblyReference.cache
 C:\Users\User\Documents\Work\00 Poland\2026 interview\Veeam\FoldersSync\FoldersSync\obj\Debug\net10.0\FoldersS.8B5FC7A8.Up2Date

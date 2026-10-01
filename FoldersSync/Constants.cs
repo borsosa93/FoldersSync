@@ -11,6 +11,7 @@ namespace FoldersSync
         public static string TerminateBeforeSyncStarted { get; }
         public static string ApplicationStarted {  get;  }
         public static string SyncStartsIn { get; }
+        public static string WaitingPressEsc { get; }
         public static string SyncStarted { get; }
         public static string ShuttingDownApplication { get; }
         public static string TimerStopped { get; }
@@ -35,19 +36,18 @@ namespace FoldersSync
         public static string EnterRpc { get; }
         public static string EnterIntervalMin { get; }
         public static string EnterLog { get; }
-        public static string RpcCantBeSrc { get; }
-        public static string LogCantBeSrcRpc { get; }
-        public static string InputFolderNotValid { get; }
-        public static string InputTimeNotValid { get; }
+        public static string RpcIsSrc { get; }
+        public static string LogIsSrcRpc { get; }
+        public static string IsSubOf { get; }
+        public static string ArgFolderNotValid { get; }
+        public static string ArgTimeNotValid { get; }
 
         static Constants()
         {
-            Header = "===================================================================\n                     FOLDER SYNCHRONIZER\n-------------------------------------------------------------------\n   Periodically synchronizes a source folder with a replica folder\n===================================================================\n\nHOW IT WORKS\n-------------------------------------------------------------------\n  1. Enter the source folder path\n  2. Enter the replica folder path\n  3. Enter the synchronization period in minutes\n  4. Enter the log folder path\n\n  Press Esc anytime to stop the application\n\n  The replica folder will be periodically updated to match\n  the content of the source folder\n\nNOTE\n-------------------------------------------------------------------\n  * Make sure no files in the replica folder and subfolders\n    are open and no subfolders of the replica folder are open\n    before starting the synchronization\n\n  * Files in the source folder and its subfolders, and\n    subfolders of the source folder can remain open\n\n  * Logs are written to a text file created in the specified\n    log folder and are also displayed in the console\n\n  * If a synchronization fails, the files in the source folder\n    remain available in their original location. Replica folder\n    content may be left intact or found in a backup folder\n    in the parent folder of the replica folder\n\n-------------------------------------------------------------------";
-            EscapeCommand = "escape";
+            Header = "===================================================================\n                     FOLDER SYNCHRONIZER\n-------------------------------------------------------------------\n   Periodically synchronizes a source folder with a replica folder\n===================================================================\n\nARGUMENTS\n-------------------------------------------------------------------\n  1. -s source folder path\n  2. -r  replica folder path\n  3. -t synchronization period in minutes\n  4. -l log folder path\n\n  Press Esc anytime to stop the application\n\n  The replica folder will be periodically updated to match\n  the content of the source folder\n\nNOTE\n-------------------------------------------------------------------\n  * Make sure no files in the replica folder and subfolders\n    are open and no subfolders of the replica folder are open\n    before starting the synchronization\n\n  * Files in the source folder and its subfolders, and\n    subfolders of the source folder can remain open\n\n  * Logs are written to a text file created in the specified\n    log folder and are also displayed in the console\n\n  * If a synchronization fails, the files in the source folder\n    remain available in their original location. Replica folder\n    content may be left intact or found in a backup folder\n    in the parent folder of the replica folder\n\n-------------------------------------------------------------------"; EscapeCommand = "escape";
             TerminateBeforeSyncStarted = "Esc pressed! Terminating the application before the first synchonization had started";
-            ApplicationStarted = "Application started";
             SyncStarted = "Synchronization started";
-            SyncStartsIn = "Synchronization starts in ";
+            WaitingPressEsc = "Waiting for next synchronization. Press Esc to quit";
             ShuttingDownApplication = "Esc pressed! Shutting down the application...";
             TimerStopped = "Timer stopped successfully";
             ShutdownSignalReceived="Shutdown signal received. Cleaning up resources...";
@@ -67,14 +67,11 @@ namespace FoldersSync
             TmpFileFolderOpenError = "Synchronization failed: One or more files or subfolders of the tmp folder are opened by another process. Close the files or subfolders and restart the application";
             SyncFinishedSuccess = "Synchronization finished sucessfully";
             LogFileIsAt = "Log file is saved at ";
-            EnterSrc = "\nEnter the source folder full path";
-            EnterRpc = "\nEnter the replica folder full path";
-            RpcCantBeSrc = "\nReplica folder can't be the same as source folder. Enter a different folder path";
-            EnterIntervalMin = "\nEnter the synchronization period in minutes";
-            EnterLog = "\nEnter the log file folder full path";
-            LogCantBeSrcRpc = "\nLog file folder can't be the same as source folder or replica folder. Enter a different folder path";
-            InputFolderNotValid = "\nInput folder doesn't exist. Enter the path of an existing folder";
-            InputTimeNotValid = "\nInput is not a valid time value. Enter a valid time value in minutes";
+            RpcIsSrc = "Replica folder can't be the same as source folder";
+            LogIsSrcRpc = "Log file folder can't be the same as source folder or replica folder";
+            IsSubOf = " folder can't be the subfolder of the ";
+            ArgFolderNotValid = " folder doesn't exist";
+            ArgTimeNotValid = " is not a valid time value";
         }
     }
 }

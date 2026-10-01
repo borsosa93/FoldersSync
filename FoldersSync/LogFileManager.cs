@@ -5,7 +5,7 @@ namespace FoldersSync
     public static class LogFileManager
     {        
         private static string _logFileNamePrefix = Constants.LogFileNamePrefix;
-        public static async Task<string> CreateLogFile(UserInputModel userInputModel)
+        public static async Task<string> CreateLogFile(OptionsModel userInputModel)
         {
             string logFilePath = userInputModel.LogFileFolderPath;
             string sourceFolderPath=userInputModel.SourceFolderPath;
@@ -16,8 +16,6 @@ namespace FoldersSync
 
             File.AppendAllText(logFilePathName, sourceFolderPath + Environment.NewLine);
             File.AppendAllText(logFilePathName, replicaFolderPath + Environment.NewLine);
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine(Constants.SyncStartsIn+syncIntervalMinute+" min");
 
             return logFileGuid;
         }

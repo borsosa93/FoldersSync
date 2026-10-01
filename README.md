@@ -6,7 +6,7 @@
 
 ## INSTALLATION AND USAGE
 
-Make sure to install .NET 10.0 or higher version. Clone this repository and run the console application. No other package or dependency setup is needed.
+Make sure to install .NET 10.0 or higher version. Clone this repository and run the console application. CommandLineParser NuGet package is installed for reading command line arguments
 
 ## LIMITS OF USE
 
@@ -14,12 +14,6 @@ Make sure no files in the replica folder and subfolders are open and no subfolde
 When entering input data, the usual navigation between previous input values with the Up and Down arrows doesn't work. See more about this in the Technical notes section.
 
 ## CONTRIBUTING
-
-Logger.cs uses `StreamWriter` instead of `File.WriteAllLinesAsync()`. The reason behind this is some transient error with the latter method which I was not able to eliminate, so instead I chose a different, stable solution.
-
-User input is taken with a custom input reader class. It was necessary to use a reader based on Console.ReadKey() rather than Console.Readline(), in order to be able to accept text input (i.e. multiple key entered) and in the same time be able to stop the running with the press of the Esc key without having to press Enter after it.
-
-The solution was implemented as described in this [StackOverflow post](https://stackoverflow.com/a/66495807) with one change. In its current way, the code from the answer was found to work only with a low number of lines showing in the console, but not with the current application header. The error was about the console buffer height not being sufficient, and modifying the CancelableReadLine method to `var top = startPosition.top + endPosition.top;` instead of `var top = startPosition.top + endPosition.top + 1;` solved the issue. It required having to add some extra `\n` characters in the string constants, but the reader works properly.
 
 Periodic run is implemented with a `PeriodocTimer`, and the actual synchronization happens in an async method. So that in case the synchronization lasts longer than the sync period specified by the user, a new syncing won't be started before the current one is done.
 
